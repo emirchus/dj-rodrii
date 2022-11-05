@@ -1,23 +1,20 @@
-const { SlashCommandBuilder } = require("@discordjs/builders")
+const { SlashCommandBuilder } = require("@discordjs/builders");
 
 module.exports = {
-	data: new SlashCommandBuilder()
-        .setName("pause")
-        .setDescription("Pausar el bot"),
-	execute: async ({ client, interaction }) => {
-        // Get the queue for the server
-		const queue = client.player.getQueue(interaction.guildId)
+  data: new SlashCommandBuilder()
+    .setName("pause")
+    .setDescription("Pausar el bot"),
+  execute: async ({ client, interaction }) => {
 
-        // Check if the queue is empty
-		if (!queue)
-		{
-			await interaction.reply("no hay ninguna cancion")
-			return;
-		}
+    const queue = client.player.getQueue(interaction.guildId);
 
-        // Pause the current song
-		queue.setPaused(true);
+    if (!queue) {
+      await interaction.reply("no hay ninguna cancion");
+      return;
+    }
 
-        await interaction.reply("Bot pausado")
-	},
-}
+    queue.setPaused(true);
+
+    await interaction.reply("Bot pausado");
+  },
+};

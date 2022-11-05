@@ -26,7 +26,7 @@ const client = new Client({
 const commands = [];
 client.commands = new Collection();
 
-const commandsPath = path.join(__dirname, "commands"); // E:\yt\discord bot\js\intro\commands
+const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
   .readdirSync(commandsPath)
   .filter((file) => file.endsWith(".js"));
@@ -39,12 +39,20 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
-client.player = new Player(client, {
+const player = new Player(client, {
   ytdlOptions: {
     quality: "highestaudio",
     highWaterMark: 1 << 25,
   },
 });
+
+player.on("trackStart", (queue, track) =>
+  queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`)
+);
+
+player.on("trackEnd", (queue, track) => {});
+
+client.player = player;
 
 client.on(Events.ClientReady, async () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -67,8 +75,8 @@ client.on(Events.ClientReady, async () => {
   }
 
   client.user.setActivity({
-    name: "Drogado",
-    type: ActivityType.Listening,
+    name: "a tu señora",
+    type: ActivityType.Watching,
   });
 });
 client.on("interactionCreate", async (interaction) => {
@@ -82,7 +90,7 @@ client.on("interactionCreate", async (interaction) => {
   } catch (error) {
     console.error(error);
     await interaction.reply({
-      content: "There was an error executing this command",
+      content: error,
     });
   }
 });
