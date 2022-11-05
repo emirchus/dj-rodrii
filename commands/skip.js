@@ -20,7 +20,7 @@ module.exports = {
 
     await interaction.reply({
       embeds: [
-        new EmbedBuilderEmbedBuilder()
+        new EmbedBuilder()
           .setDescription(`${currentSong.title} chau tema`)
           .setThumbnail(currentSong.thumbnail),
       ],
