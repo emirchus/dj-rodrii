@@ -14,6 +14,7 @@ const { Player } = require("discord-player");
 
 const fs = require("node:fs");
 const path = require("node:path");
+const { hasUncaughtExceptionCaptureCallback } = require("node:process");
 
 const client = new Client({
   intents: [
@@ -51,6 +52,15 @@ player.on("trackStart", (queue, track) =>
 );
 
 player.on("trackEnd", (queue, track) => {});
+
+player.on("error", (queue, error) => {
+  console.error(error);
+  queue.metadata.channel.send(`❌ | An error encountered: ${error.message}`);
+});
+
+player.on("debug", (queue, message) => {
+  console.log(message);
+});
 
 client.player = player;
 
