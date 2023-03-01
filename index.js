@@ -51,7 +51,9 @@ player.on("trackStart", (queue, track) =>
   queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`)
 );
 
-player.on("trackEnd", (queue, track) => {});
+player.on("trackEnd", (queue, track) => {
+  queue.metadata.channel.send(`🎶 | **${track.title}** has ended!`);
+});
 
 player.on("error", (queue, error) => {
   console.error(error);
